@@ -1,7 +1,5 @@
-Universidad Politecnica Salesiana
-Estructura de datos
-Estudiante: Josue Calle
-
- 01.01 Métodos ordenamiento
-Fecha: 05/05/2026
-Descripcion: se realizo el metodo Shell e Insercion
+### Universidad Politecnica Salesiana
+### Estuduante: Josue Calle
+### Fecha: 05-05-2026
+### preoyecto 1.01 Metodos de Ordenamiento
+### Descripcion: Metodo Shell, Insercion

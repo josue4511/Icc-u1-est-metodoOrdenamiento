@@ -1,45 +1,88 @@
 public class Shell {
-     public static void shellAscendente(int[] arr) {
+     public int[] ordenar(int[] original, boolean ascendente) {
+        int[] arr = original.clone();
         int n = arr.length;
-        int medio = n / 2;
+
+        int comparaciones = 0;
         int cambios = 0;
-        for(medio=n/2;medio>0;medio/=2){
-             for (int i=0;i<medio;i++){
-                 for (int j=medio;j<n-1;j++){
-                     if(arr[i]>arr[j]){
-                         int temp = arr[i];
-                         arr[i] = arr[j];
-                         arr[j] = temp;
-                         cambios++;
-                         System.out.println("Intercambio: " + arr[i] + " y " + arr[j]);
-                         System.out.println("Total de intercambios: " + cambios);
-                         System.out.println("Array después del intercambio: " + java.util.Arrays.toString(arr));
+        int iteraciones = 0;
+
+        System.out.println("\n==== METODO SHELL ====");
+        System.out.println("\nArreglo original:");
+        imprimirArreglo(arr);
+
+        int gap = n / 2;
+
+        while (gap > 0) {
+            for (int i = 0; i < n - gap; i++) {
+                iteraciones++;
+                int a = i;
+                int b = i + gap;
+
+                System.out.print("\nI" + iteraciones + "   ");
+                imprimirArregloLinea(arr);
+
+                while (a >= 0 && b < n) {
+                    comparaciones++;
+                    boolean debeIntercambiar = ascendente
+                            ? arr[a] > arr[b]
+                            : arr[a] < arr[b];
+
+                    System.out.printf("       gap=%-3d a=%-3d b=%-3d [a]=%-6d [b]=%-6d cambio=%s%n",
+                            gap, a, b, arr[a], arr[b], debeIntercambiar ? "si" : "no");
+
+                    if (debeIntercambiar) {
+                        cambios++;
+                        int tmp = arr[a];
+                        arr[a] = arr[b];
+                        arr[b] = tmp;
+
+                        imprimirEstadoParcial(arr, a, b);
+
+                        a -= gap;
+                        b -= gap;
+                    } else {
+                        break;
                     }
                 }
             }
+            gap /= 2;
+        }
 
+        System.out.println("\n");
+        System.out.print("end  ");
+        imprimirArregloLinea(arr);
+        System.out.println();
+
+        System.out.println("\nCOMPARACIONES = " + comparaciones);
+        System.out.println("ITERACIONES   = " + iteraciones);
+        System.out.println("CAMBIOS       = " + cambios);
+
+        return new int[]{comparaciones, cambios, iteraciones};
+    }
+
+    private void imprimirArreglo(int[] arr) {
+        for (int v : arr) {
+            System.out.printf("%-6d", v);
+        }
+        System.out.println();
+    }
+
+    private void imprimirArregloLinea(int[] arr) {
+        for (int v : arr) {
+            System.out.printf("%-6d", v);
         }
     }
-     public static void shellDescendente(int[] arr) {
-        int n = arr.length;
-        int medio = 0;
-        int cambios = 0;
-        for(medio=n/2;medio>0;medio/=2){
-            for (int i=0;i<medio;i++){
-                for (int j=medio;j<n-1;j++){
-                     if(arr[i]<arr[j]){
-                         int temp = arr[i];
-                         arr[i] = arr[j];
-                         arr[j] = temp;
-                         cambios++;
-                         System.out.println("Intercambio: " + arr[i] + " y " + arr[j]);
-                         System.out.println("Total de intercambios: " + cambios);
-                         System.out.println("Array después del intercambio: " + java.util.Arrays.toString(arr));
-                    }
-                }
+
+    private void imprimirEstadoParcial(int[] arr, int posA, int posB) {
+        System.out.print("     ");
+        for (int i = 0; i < arr.length; i++) {
+            if (i == posA || i == posB) {
+                System.out.printf("%-6d", arr[i]);
+            } else {
+                System.out.printf("%-6s", "");
             }
-
         }
+        System.out.println();
     }
-
 }

@@ -2,51 +2,69 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
-        int[] datos ={ 2, 0, -15, 10, 20, -3, -5, 7};
-        Scanner Lector = new Scanner(System.in);
-        System.out.println("1.Insercion ascendente o descendente ");
-        System.out.println("2.Shell asecendente o descendente");
-        System.out.println("3.salir");
-        int opcion = Lector.nextInt(); 
-        if(opcion == 1){
-            System.out.println("true. Ascendente");
-            System.out.println("false. Descendente");
-            boolean opcion2 = Lector.nextBoolean();
-            if(opcion2 == true){
-                System.out.println("Has elegido insercion ascendente");
-                Insercion insercion = new Insercion();
-                insercion.insercionAscendente(datos);
-            }else if(opcion2 == false){
-                System.out.println("Has elegido insercion descendente");
-                Insercion insercion = new Insercion();
-                insercion.insercionDescendente(datos);
-            }else{
-                System.out.println("Opcion no valida");
+       int[] arreglo = { 12, -7, 25, 0, -15, 33, 19, -22, 5, 48, -3 };
+
+        Scanner scanner = new Scanner(System.in);
+        Insercion insercion = new Insercion();
+        Shell shell = new Shell();
+
+        int opcion = -1;
+
+        do {
+            System.out.println("\n==== PROGRAMA DE ORDENAMIENTO ====");
+            System.out.println();
+            System.out.println("1. Ejecutar ordenamientos");
+            System.out.println("2. Salir");
+            System.out.print("\nOpcion: ");
+
+            opcion = leerEnteroValido(scanner, 1, 2);
+
+            if (opcion == 1) {
+                boolean insercionAsc = leerBooleano(scanner, "¿Inserción ascendente? (true/false): ");
+                boolean shellAsc     = leerBooleano(scanner, "¿Shell ascendente? (true/false): ");
+
+                insercion.ordenar(arreglo, insercionAsc);
+                shell.ordenar(arreglo, shellAsc);
+            }
+
+        } while (opcion != 2);
+
+        System.out.println("\nPrograma finalizado.");
+        scanner.close();
+    }
+    private static int leerEnteroValido(Scanner scanner, int min, int max) {
+        while (true) {
+            String linea = scanner.nextLine().trim();
+
+            if (linea.isEmpty()) {
+                System.out.print("Entrada vacía. Ingrese un número entre " + min + " y " + max + ": ");
+                continue;
+            }
+
+            try {
+                int valor = Integer.parseInt(linea);
+                if (valor < min || valor > max) {
+                    System.out.print("Valor fuera de rango. Ingrese un número entre " + min + " y " + max + ": ");
+                } else {
+                    return valor;
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Entrada inválida. Ingrese un número entre " + min + " y " + max + ": ");
             }
         }
-         if (opcion == 2){
-            System.out.println("true. Ascendente");
-            System.out.println("false. Descendente");
-            boolean opcion3 = Lector.nextBoolean();
-            if(opcion3 == true){
-                System.out.println("Has elegido shell ascendente");
-                Shell shell = new Shell();
-                shell.shellAscendente(datos);
-            }else if(opcion3 == false){
-                System.out.println("Has elegido shell descendente");
-            }else{
-                System.out.println("Opcion no valida");
+    }
+    private static boolean leerBooleano(Scanner scanner, String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String linea = scanner.nextLine().trim().toLowerCase();
+
+            if (linea.equals("true")) {
+                return true;
+            } else if (linea.equals("false")) {
+                return false;
+            } else {
+                System.out.println("Entrada inválida. Escriba 'true' o 'false'.");
             }
         }
-        if (opcion == 3){
-            System.out.println("Has elegido salir");
-        }else if(opcion != 1 && opcion != 2 && opcion != 3){
-            System.out.println("Opcion no valida");
-        }
-
-    
-
     }
-    }
-
+}
